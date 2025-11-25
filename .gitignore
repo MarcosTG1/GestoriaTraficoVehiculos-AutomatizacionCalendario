@@ -15,7 +15,8 @@ credentials.json
 token.json
 
 
-data/
+# Ignore all files in data/ except .gitkeep
+data/*
 !data/.gitkeep
 *.csv
 *.xlsx
