@@ -27,17 +27,17 @@ def BorrarEventos():
     time_min = start_date.isoformat() + "Z"
     time_max = end_date.isoformat() + "Z"
     
-    print(f"Buscando eventos desde {previous_year} hasta {current_year}...")
+    print(f"Buscando eventos desde {previous_year} hasta {end_date}...")
     print(f"Rango: {start_date.date()} -> {end_date.date()}")
     
-    # Listar eventos (pedimos hasta 2500 que es un límite común por página)
+    # Listar eventos 
     events_result = (
         service.events()
         .list(
             calendarId="primary",
             timeMin=time_min,
             timeMax=time_max,
-            maxResults=2500, 
+            maxResults=5000, 
             singleEvents=True,
             orderBy="startTime",
         )

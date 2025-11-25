@@ -16,6 +16,7 @@ token.json
 
 
 data/
+!data/.gitkeep
 *.csv
 *.xlsx
 *.xls
