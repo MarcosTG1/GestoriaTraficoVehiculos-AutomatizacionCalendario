@@ -1,5 +1,5 @@
 import pandas as pd
-from datetime import timedelta
+from datetime import timedelta, datetime
 import sys
 import os
 
@@ -30,6 +30,13 @@ def AnadirEventosCalendarioJustificantes():
 
     count_ok = 0
     count_err = 0
+    
+    # Contador para ajustar fechas antiguas
+    dias_ajuste = 0
+    
+    # Obtener la fecha actual y calcular la fecha límite (6 meses atrás)
+    fecha_hoy = datetime.now()
+    fecha_limite = fecha_hoy - timedelta(days=6*30)  # Aproximadamente 6 meses
 
     for index, row in df.iterrows():
         try:
@@ -39,7 +46,15 @@ def AnadirEventosCalendarioJustificantes():
             # Convertir string a datetime
             fecha_creacion = pd.to_datetime(fecha_creacion_str)
             
-            # El primer evento es en la fecha de creación
+            # Verificar si la fecha es 6 meses o más antigua
+            if fecha_creacion < fecha_limite:
+                # Ajustar la fecha: hoy - dias_ajuste
+                fecha_ajustada = fecha_hoy - timedelta(days=dias_ajuste)
+                print(f"[AJUSTE] Fecha antigua detectada ({fecha_creacion_str}). Nueva fecha: {fecha_ajustada.strftime('%Y-%m-%d')}")
+                fecha_creacion = fecha_ajustada
+                dias_ajuste += 1  # Incrementar para la próxima fecha antigua
+            
+            # El primer evento es en la fecha de creación (o ajustada)
             start_time = fecha_creacion.isoformat()
             end_time = (fecha_creacion + timedelta(hours=1)).isoformat()
             
@@ -85,6 +100,13 @@ def AnadirEventosCalendarioIncidencias():
 
     count_ok = 0
     count_err = 0
+    
+    # Contador para ajustar fechas antiguas
+    dias_ajuste = 0
+    
+    # Obtener la fecha actual y calcular la fecha límite (6 meses atrás)
+    fecha_hoy = datetime.now()
+    fecha_limite = fecha_hoy - timedelta(days=6*30)  # Aproximadamente 6 meses
 
     for index, row in df.iterrows():
         try:
@@ -94,7 +116,15 @@ def AnadirEventosCalendarioIncidencias():
             # Convertir string a datetime
             fecha_creacion = pd.to_datetime(fecha_creacion_str)
             
-            # El evento comienza en la fecha de creación
+            # Verificar si la fecha es 6 meses o más antigua
+            if fecha_creacion < fecha_limite:
+                # Ajustar la fecha: hoy - dias_ajuste
+                fecha_ajustada = fecha_hoy - timedelta(days=dias_ajuste)
+                print(f"[AJUSTE] Fecha antigua detectada ({fecha_creacion_str}). Nueva fecha: {fecha_ajustada.strftime('%Y-%m-%d')}")
+                fecha_creacion = fecha_ajustada
+                dias_ajuste += 1  # Incrementar para la próxima fecha antigua
+            
+            # El evento comienza en la fecha de creación (o ajustada)
             start_time = fecha_creacion.isoformat()
             end_time = (fecha_creacion + timedelta(hours=1)).isoformat()
             
@@ -108,6 +138,8 @@ def AnadirEventosCalendarioIncidencias():
             print(f"Procesando Incidencia: {summary} inicio {start_time} (Recurrencia: {recurrence})")
             
             add_event(service, summary, start_time, end_time, description=description, recurrence=recurrence)
+            count_ok += 1
+            
         except Exception as e:
             print(f"[ERROR] Fallo en fila {index}: {e}")
             count_err += 1
@@ -139,6 +171,13 @@ def AnadirEventosCalendarioTrafico():
 
     count_ok = 0
     count_err = 0
+    
+    # Contador para ajustar fechas antiguas
+    dias_ajuste = 0
+    
+    # Obtener la fecha actual y calcular la fecha límite (6 meses atrás)
+    fecha_hoy = datetime.now()
+    fecha_limite = fecha_hoy - timedelta(days=6*30)  # Aproximadamente 6 meses
 
     for index, row in df.iterrows():
         try:
@@ -148,7 +187,15 @@ def AnadirEventosCalendarioTrafico():
             # Convertir string a datetime
             fecha_creacion = pd.to_datetime(fecha_creacion_str)
             
-            # El evento comienza en la fecha de creación
+            # Verificar si la fecha es 6 meses o más antigua
+            if fecha_creacion < fecha_limite:
+                # Ajustar la fecha: hoy - dias_ajuste
+                fecha_ajustada = fecha_hoy - timedelta(days=dias_ajuste)
+                print(f"[AJUSTE] Fecha antigua detectada ({fecha_creacion_str}). Nueva fecha: {fecha_ajustada.strftime('%Y-%m-%d')}")
+                fecha_creacion = fecha_ajustada
+                dias_ajuste += 1  # Incrementar para la próxima fecha antigua
+            
+            # El evento comienza en la fecha de creación (o ajustada)
             start_time = fecha_creacion.isoformat()
             end_time = (fecha_creacion + timedelta(hours=1)).isoformat()
             
