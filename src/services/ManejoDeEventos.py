@@ -11,10 +11,10 @@ from services.ManejoGoogleCalendar import get_calendar_service, add_event
 
 def RevisarAntiguedadFechaCreacion(fecha_creacion: datetime, dias_ajuste: int) -> tuple[datetime, int]:
     """
-    Verifica si la fecha de creación es antigua (más de 3 meses) y la ajusta si es necesario.
+    Verifica si la fecha de creación es antigua (más de 50 días) y la ajusta si es necesario.
     """
     fecha_hoy = datetime.now()
-    fecha_limite = fecha_hoy - timedelta(days=3*30)  # Aproximadamente 3 meses
+    fecha_limite = fecha_hoy - timedelta(days=50)  
     
     if fecha_creacion < fecha_limite:
         # Ajustar la fecha: hoy - dias_ajuste
