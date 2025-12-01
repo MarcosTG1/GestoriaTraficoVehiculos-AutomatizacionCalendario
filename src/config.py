@@ -26,7 +26,7 @@ CALENDAR_ID = get_required_env("CALENDAR_ID")
 PATH_INCIDENCIAS = get_required_env("PATH_INCIDENCIAS")
 PATH_JUSTIFICANTES = get_required_env("PATH_JUSTIFICANTES")
 PATH_TRAFICO = get_required_env("PATH_TRAFICO")
-
+PATH_FACTURAS = get_required_env("PATH_FACTURAS")
 
 # --- Lógica de Negocio ---
 # Convertimos a int para que sean utilizables numéricamente
@@ -46,3 +46,6 @@ VECES_REPETICION_TRAFICO = get_int_required_env("VECES_REPETICION_TRAFICO")
 
 DIAS_RECURRENCIA_JUSTIFICANTE = get_int_required_env("DIAS_RECURRENCIA_JUSTIFICANTE")
 VECES_REPETICION_JUSTIFICANTE = get_int_required_env("VECES_REPETICION_JUSTIFICANTE")
+
+DIAS_RECURRENCIA_FACTURAS = get_int_required_env("DIAS_RECURRENCIA_FACTURAS")
+VECES_REPETICION_FACTURAS = get_int_required_env("VECES_REPETICION_FACTURAS")

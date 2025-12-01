@@ -4,7 +4,7 @@ import os
 # Añadir el directorio raíz al path para poder importar módulos
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from src.services.ManejoDeEventos import AnadirEventosCalendarioJustificantes, AnadirEventosCalendarioIncidencias, AnadirEventosCalendarioTrafico
+from src.services.ManejoDeEventos import AnadirEventosCalendarioJustificantes, AnadirEventosCalendarioIncidencias, AnadirEventosCalendarioTrafico, AnadirEventosCalendarioFacturas
 from scripts.ProcesoAutenticación import ProcesoAutenticacion
 from scripts.BorrarEventos import BorrarEventos
 
@@ -13,18 +13,21 @@ def main():
 
     ProcesoAutenticacion()
 
-    print("\n[0/3] Borrando eventos...")
+    print("\n[0/4] Borrando eventos...")
     BorrarEventos()
     
-    print("\n[1/3] Procesando Justificantes...")
+    print("\n[1/4] Procesando Facturas Pendientes...")
+    AnadirEventosCalendarioFacturas()
+
+    print("\n[2/4] Procesando Justificantes...")
     AnadirEventosCalendarioJustificantes()
     
-    print("\n[2/3] Procesando Incidencias...")
+    print("\n[3/4] Procesando Incidencias...")
     AnadirEventosCalendarioIncidencias()
 
-    print("\n[3/3] Procesando Tráfico...")
+    print("\n[4/4] Procesando Tráfico...")
     AnadirEventosCalendarioTrafico()
-    
+
     print("\n=== PROCESO COMPLETADO ===")
 
 if __name__ == "__main__":

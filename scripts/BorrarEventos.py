@@ -20,14 +20,15 @@ def BorrarEventos():
     current_year = now.year
     previous_year = current_year - 1
     
-    # Calcular rango: Desde 1 Enero del año anterior hasta 31 Diciembre del año siguiente 
+    # Calcular rango: Desde 1 Enero del año anterior hasta 31 Diciembre de dos años adelante 
+    # Por ejemplo: Si es 2025, buscará eventos desde 2024 hasta el 31 de diciembre de 2027 
     start_date = datetime.datetime(previous_year, 1, 1, 0, 0, 0)
-    end_date = datetime.datetime(current_year + 1, 12, 31, 0, 0, 0)
+    end_date = datetime.datetime(current_year + 2, 12, 31, 0, 0, 0)
     
     time_min = start_date.isoformat() + "Z"
     time_max = end_date.isoformat() + "Z"
     
-    print(f"Buscando eventos desde {previous_year} hasta {end_date}...")
+    print(f"Buscando eventos desde {previous_year} hasta {end_date.date()}...")
     print(f"Rango: {start_date.date()} -> {end_date.date()}")
     
     # Listar eventos 
