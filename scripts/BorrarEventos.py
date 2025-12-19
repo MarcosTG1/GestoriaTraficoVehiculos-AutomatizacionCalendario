@@ -1,5 +1,6 @@
 import sys
 import os
+import time
 import datetime
 
 # Añadir el directorio raíz al path para poder importar módulos
@@ -67,8 +68,14 @@ def BorrarEventos():
             start = event['start'].get('dateTime', event['start'].get('date'))
             
             print(f"Eliminando: {summary} ({start})")
-            delete_event(service, event_id)
-            count_deleted += 1
+            if delete_event(service, event_id):
+                count_deleted += 1
+            else:
+                count_err += 1
+            
+            # Pequeña pausa para evitar "Rate Limit Exceeded"
+            time.sleep(0.5)
+
         except Exception as e:
             print(f"[ERROR] No se pudo eliminar el evento {event_id}: {e}")
             count_err += 1

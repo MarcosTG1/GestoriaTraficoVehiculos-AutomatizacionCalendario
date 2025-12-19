@@ -109,3 +109,5 @@ def delete_event(service, event_id):
         print(f"Event {event_id} deleted.")
     except HttpError as e:
         print(f"An error occurred: {e}")
+        return False
+    return True
