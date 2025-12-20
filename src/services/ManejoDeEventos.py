@@ -9,6 +9,7 @@ from typing import Callable, Optional
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 from services.ManejoGoogleCalendar import get_calendar_service, add_event
+from services.BorrarDatosEjecucion import BorrarDatosEjecucion
 
 def RevisarAntiguedadFechaCreacion(fecha_creacion: datetime, dias_ajuste: int) -> tuple[datetime, int]:
     """
@@ -60,6 +61,8 @@ def ProcesarEventosGenerico(
             print("Deteniendo ejecución.")
             sys.exit(1)
 
+    archivos_temporales = []
+
     try:
         df = None
         if es_csv:
@@ -72,6 +75,7 @@ def ProcesarEventosGenerico(
             if not ruta_csv:
                 print("[ERROR] Falló la conversión de XLS a CSV.")
                 return
+            archivos_temporales.append(ruta_csv)
             # Facturas usa dayfirst=True
             df = pd.read_csv(ruta_csv, sep=',')
             print(f"Archivo CSV cargado correctamente: {ruta_csv}")
@@ -120,6 +124,12 @@ def ProcesarEventosGenerico(
     print(f"\n--- Resumen {nombre_proceso} ---")
     print(f"Eventos creados: {count_ok}")
     print(f"Errores: {count_err}")
+    if count_err == 0:
+        BorrarDatosEjecucion(ruta_archivo)
+        for archivo_temp in archivos_temporales:
+            BorrarDatosEjecucion(archivo_temp)
+
+    
 
 
 def AnadirEventosCalendarioJustificantes():
@@ -141,7 +151,7 @@ def AnadirEventosCalendarioJustificantes():
             'nuevo_dias_ajuste': nuevo_dias_ajuste
         }
 
-    ProcesarEventosGenerico("JUSTIFICANTES", PATH_JUSTIFICANTES, procesar)
+    ProcesarEventosGenerico("JUSTIFICANTES", PATH_JUSTIFICANTES, procesar, validar_nombre_archivo="LISTADO_JUSTIFICANTES.csv")
 
 def AnadirEventosCalendarioIncidencias():
     from src.config import PATH_INCIDENCIAS, DIAS_RECURRENCIA_INCIDENCIA, VECES_REPETICION_INCIDENCIA
@@ -162,7 +172,7 @@ def AnadirEventosCalendarioIncidencias():
             'nuevo_dias_ajuste': nuevo_dias_ajuste
         }
 
-    ProcesarEventosGenerico("INCIDENCIAS", PATH_INCIDENCIAS, procesar)
+    ProcesarEventosGenerico("INCIDENCIAS", PATH_INCIDENCIAS, procesar, validar_nombre_archivo="LISTADO_INCIDENCIAS.csv" )
 
 def AnadirEventosCalendarioTrafico():
     from src.config import PATH_TRAFICO, DIAS_RECURRENCIA_TRAFICO, VECES_REPETICION_TRAFICO
@@ -183,7 +193,7 @@ def AnadirEventosCalendarioTrafico():
             'nuevo_dias_ajuste': nuevo_dias_ajuste
         }
 
-    ProcesarEventosGenerico("TRÁFICO", PATH_TRAFICO, procesar)
+    ProcesarEventosGenerico("TRÁFICO", PATH_TRAFICO, procesar, validar_nombre_archivo="LISTADO_TRAFICO.csv" )
 
 def AnadirEventosCalendarioFacturas():
     from src.config import PATH_FACTURAS, DIAS_RECURRENCIA_FACTURAS, VECES_REPETICION_FACTURAS
