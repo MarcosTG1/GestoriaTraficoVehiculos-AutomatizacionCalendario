@@ -2,6 +2,7 @@ import pandas as pd
 from datetime import timedelta, datetime
 import sys
 import os
+import time
 from typing import Callable, Optional
 
 # Añadir el directorio raíz al path para poder importar módulos
@@ -108,6 +109,9 @@ def ProcesarEventosGenerico(
                     recurrence=datos_evento.get('recurrence')
                 )
                 count_ok += 1
+                
+                # Pausa para evitar Rate Limit Exceeded
+                time.sleep(0.5)
             
         except Exception as e:
             print(f"[ERROR] Fallo en fila {index}: {e}")
